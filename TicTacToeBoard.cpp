@@ -1,4 +1,5 @@
 #include "TicTacToeBoard.h"
+#include <stdio.h>
 /**
  * Class for representing a 3x3 Tic-Tac-Toe game board, using the Piece enum
  * to represent the spaces on the board.
@@ -19,14 +20,14 @@ TicTacToeBoard::TicTacToeBoard()
 **/
 Piece TicTacToeBoard::toggleTurn()
 {
-  if (turn = X)
+  if (turn == X)
   {
 	  turn = O;
 	  return turn;
-  }else if(turn = O)
+  }else if(turn == O)
   {
 	  turn = X;
-          return O;
+          return turn;
   }
   return Invalid;
 }
@@ -40,18 +41,31 @@ Piece TicTacToeBoard::toggleTurn()
  * is over, no more pieces can be placed so attempting to place a piece
  * should neither change the board nor change whose turn it is.
 **/ 
-Piece TicTacToeBoard::placePiece(int row, int column)
+Piece TicTacToeBoard::placePiece(int row, int col)
 {
-  return Invalid;
+  if(board[row][col] == Blank && (row < 3 && row > -1) && (col < 3 && col > -1))
+  {
+	  board[row][col] = turn;
+	  return toggleTurn();
+  }else
+  {
+  	return Invalid;
+  }
 }
 
 /**
  * Returns what piece is at the provided coordinates, or Blank if there
  * are no pieces there, or Invalid if the coordinates are out of bounds
 **/
-Piece TicTacToeBoard::getPiece(int row, int column)
+Piece TicTacToeBoard::getPiece(int row, int col)
 {
-  return Invalid;
+	if((row < 3) && (row > -1) & (col < 3) && (col > -1))
+	{
+		return board[row][col];
+	}else
+	{
+  		return Invalid;
+	}
 }
 
 /**
@@ -60,5 +74,35 @@ Piece TicTacToeBoard::getPiece(int row, int column)
 **/
 Piece TicTacToeBoard::getWinner()
 {
-  return Invalid;
+
+	int MaxPlacements = BOARDSIZE * BOARDSIZE;
+	int PlacementCount = 0;
+	bool blank = false;
+
+
+	for (int i = 0; i < BOARDSIZE; i++)
+	{
+		for (int j = 0; j < BOARDSIZE; j++)
+		{
+
+
+			if(board[i][j] == Blank)
+			{
+				blank = true;
+			}else
+			{
+				PlacementCount++;
+			}
+		}
+	}
+	
+  	if(PlacementCount == MaxPlacements)
+  	{
+
+  		return Blank;
+
+  	}else
+  	{
+		return Invalid;
+  	}
 }
